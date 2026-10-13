@@ -25,7 +25,7 @@
 #define C_ACC    RGB15(18,26,31)    // 强调蓝
 
 u16* topFb = (u16*)0x06000000;      // 上屏(MAIN)位图
-u16* subFb = (u16*)0x06000000;      // 下屏(SUB)位图
+u16* subFb = (u16*)0x06200000;      // 下屏(SUB)位图
 #define FB_W 256
 #define FB_H 192
 
@@ -268,9 +268,9 @@ static void renderBottom(){
 
 int main(void){
     videoSetMode(MODE_5_2D | DISPLAY_BG2_ACTIVE);
-    videoSetModeSub(MODE_5_2D | DISPLAY_BG2_ACTIVE_SUB);
+    videoSetModeSub(MODE_5_2D | DISPLAY_BG2_ACTIVE);
     vramSetBankA(VRAM_A_MAIN_BG_0x06000000);
-    vramSetBankD(VRAM_D_SUB_BG_0x06000000);
+    vramSetBankD(VRAM_D_SUB_BG_0x06200000);
     REG_BG2CNT   = BG_BMP_BASE(0) | BG_BMP16_256x256;
     REG_BG2CNT_SUB= BG_BMP_BASE(0) | BG_BMP16_256x256;
 
