@@ -17,12 +17,13 @@ jobs:
 
       - name: 用 devkitPro Docker 镜像编译 r4zukan.nds
         run: |
+          # 镜像只带 devkitARM 编译器，先装 nds-dev(libnds + ndstool)再编译
           docker run --rm \
             -v "$PWD":/work -w /work \
             -e DEVKITPRO=/opt/devkitpro \
             -e DEVKITARM=/opt/devkitpro/devkitARM \
             devkitpro/devkitarm:latest \
-            bash -c "make clean && make && ls -la r4zukan.nds"
+            bash -c "dkp-pacman -S --noconfirm --needed nds-dev && make clean && make && ls -la r4zukan.nds"
 
       - name: 上传编译产物 r4zukan.nds
         uses: actions/upload-artifact@v4
