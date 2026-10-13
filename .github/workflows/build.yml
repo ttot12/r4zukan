@@ -1,5 +1,5 @@
 # GitHub Actions 云编译：R4 黑白图鉴菜单启动器
-# 在 GitHub 云端自动安装 devkitPro(NDS工具链) -> 编译 -> 产出 r4zukan.nds 供下载
+# 用 devkitPro 官方 Docker 镜像(devkitpro/devkitarm)在云端编译 -> 产出 r4zukan.nds 供下载
 # 触发方式：推送代码 或 在 Actions 页手动点 Run workflow
 
 name: Build r4zukan.nds
@@ -15,20 +15,14 @@ jobs:
       - name: 检出源码
         uses: actions/checkout@v4
 
-      - name: 安装 devkitPro (NDS 工具链)
+      - name: 用 devkitPro Docker 镜像编译 r4zukan.nds
         run: |
-          wget https://apt.devkitpro.org/install-devkitpro-pacman
-          sudo chmod +x install-devkitpro-pacman
-          sudo ./install-devkitpro-pacman
-          sudo dkp-pacman -S --noconfirm --needed nds-dev
-
-      - name: 编译 r4zukan.nds
-        run: |
-          export DEVKITPRO=/opt/devkitpro
-          export DEVKITARM=/opt/devkitpro/devkitARM
-          make clean
-          make
-          ls -la r4zukan.nds
+          docker run --rm \
+            -v "$PWD":/work -w /work \
+            -e DEVKITPRO=/opt/devkitpro \
+            -e DEVKITARM=/opt/devkitpro/devkitARM \
+            devkitpro/devkitarm:latest \
+            bash -c "make clean && make && ls -la r4zukan.nds"
 
       - name: 上传编译产物 r4zukan.nds
         uses: actions/upload-artifact@v4
