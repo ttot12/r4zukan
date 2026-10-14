@@ -23,10 +23,10 @@ ROMTITLE := R4ZUKAN
 ARCH := -marm -mthumb-interwork -march=armv5te -mtune=arm946e-s \
         -fomit-frame-pointer -ffast-math
 
-# 关键：libnds 头文件路径 + 平台宏(NDS+ARM9，新版 libnds/calico 必需) + calico 头文件路径
+# 关键：libnds 头文件路径 + 平台宏(__NDS__+ARM9，新版 libnds/calico 必需) + calico 头文件路径
 INCLUDES := -I$(DEVKITPRO)/libnds/include -I$(DEVKITPRO)/libfat/include \
             -I$(DEVKITPRO)/maxmod/include -I$(DEVKITPRO)/calico/include
-CFLAGS   := -g -Wall -O2 $(ARCH) -DNDS -DARM9 $(INCLUDES) $(INCLUDE)
+CFLAGS   := -g -Wall -O2 $(ARCH) -D__NDS__ -DARM9 $(INCLUDES) $(INCLUDE)
 CXXFLAGS := $(CFLAGS) -fno-rtti -fno-exceptions -fno-threadsafe-statics
 LDFLAGS  := -specs=ds_arm9.specs -g $(ARCH)
 # 关键：显式给出 libnds 的 -L 库路径，否则链接器找不到 libnds9.a
