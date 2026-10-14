@@ -29,8 +29,8 @@ INCLUDES := -I$(DEVKITPRO)/libnds/include -I$(DEVKITPRO)/libfat/include \
 CFLAGS   := -g -Wall -O2 $(ARCH) -D__NDS__ -DARM9 $(INCLUDES) $(INCLUDE)
 CXXFLAGS := $(CFLAGS) -fno-rtti -fno-exceptions -fno-threadsafe-statics
 LDFLAGS  := -specs=ds_arm9.specs -g $(ARCH)
-# 关键：显式给出 libnds 与 calico 的 -L 库路径；新版 libnds 把底层函数放进 calico，必须 -lcalico
-LIBS     := -L$(DEVKITPRO)/libnds/lib -lnds9 -L$(DEVKITPRO)/calico/lib -lcalico -lm
+# 关键：显式给出 libnds 与 calico 的 -L 库路径；新版 libnds 底层函数在 calico，ARM9 库是 libcalico_ds9.a
+LIBS     := -L$(DEVKITPRO)/libnds/lib -lnds9 -L$(DEVKITPRO)/calico/lib -lcalico_ds9 -lm
 
 all: $(TARGET).nds
 
