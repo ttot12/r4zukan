@@ -5,6 +5,10 @@
     .arm
     .global _start
 _start:
+    @ 屏蔽 IRQ/FIQ，防止启动瞬间中断未处理导致崩溃
+    mrs  r0, cpsr
+    orr  r0, r0, #0xC0
+    msr  cpsr_c, r0
     ldr  sp, =0x0237E000     @ ARM9 栈顶（在 EWRAM 高段、ARM7 区 0x02380000 之下）
     bl   main
 1:  b    1b                   @ main 不应返回；若返回则死循环
