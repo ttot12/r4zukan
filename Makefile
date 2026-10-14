@@ -28,7 +28,8 @@ INCLUDES := -I$(DEVKITPRO)/libnds/include -I$(DEVKITPRO)/libfat/include \
             -I$(DEVKITPRO)/maxmod/include -I$(DEVKITPRO)/calico/include
 CFLAGS   := -g -Wall -O2 $(ARCH) -D__NDS__ -DARM9 $(INCLUDES) $(INCLUDE)
 CXXFLAGS := $(CFLAGS) -fno-rtti -fno-exceptions -fno-threadsafe-statics
-LDFLAGS  := -specs=ds_arm9.specs -g $(ARCH)
+# 关键：链接必须用 calico 的 ds9.specs(匹配 libnds2)，不能用 devkitARM 旧的 ds_arm9.specs(会链旧 crt0、引用已删除符号)
+LDFLAGS  := -specs=$(DEVKITPRO)/calico/share/ds9.specs -g $(ARCH)
 # 关键：显式给出 libnds 与 calico 的 -L 库路径；新版 libnds 底层函数在 calico，ARM9 库是 libcalico_ds9.a
 LIBS     := -L$(DEVKITPRO)/libnds/lib -lnds9 -L$(DEVKITPRO)/calico/lib -lcalico_ds9 -lm
 
