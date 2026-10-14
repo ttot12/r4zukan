@@ -25,8 +25,9 @@ jobs:
             -e DEVKITARM=/opt/devkitpro/devkitARM \
             devkitpro/devkitarm:latest \
             bash -c "dkp-pacman -S --noconfirm --needed nds-dev && \
-                     echo '===== calico 位置 =====' && find /opt/devkitpro -name 'calico.h' 2>/dev/null && \
-                     echo '===== include 目录 =====' && ls /opt/devkitpro/*/include 2>/dev/null && \
+                     echo '===== nds.h 平台判断段 210-260 =====' && sed -n '210,260p' /opt/devkitpro/libnds/include/nds.h && \
+                     echo '===== calico.h 平台判断段 1-50 =====' && sed -n '1,50p' /opt/devkitpro/calico/include/calico.h && \
+                     echo '===== video.h 中 VRAM_D/H 常量 =====' && grep -n 'VRAM_H_SUB_BG\|VRAM_D_SUB_BG\|vramSetBankD\|vramSetBankH' /opt/devkitpro/libnds/include/nds/arm9/video.h | head -30 && \
                      echo '===== 开始编译 =====' && make clean && make" > build.log 2>&1
           echo "build_exit=$?"
           echo "===== 日志末尾 60 行 ====="
