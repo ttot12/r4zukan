@@ -37,7 +37,7 @@ all: $(TARGET).nds
 
 $(TARGET).nds: $(TARGET).arm9
 	# 关键：必须显式给 ARM7 桩(calico 的 ds7_lykoi.elf)，否则 ndstool 找 /opt/devkitpro/libnds/default.elf(2.x里不存在)
-	ndstool -c $(TARGET).nds -9 $(TARGET).arm9 -7 $(DEVKITPRO)/calico/bin/ds7_lykoi.elf -t R4ZUKAN
+	ndstool -c $(TARGET).nds -9 $(TARGET).arm9 -7 $(DEVKITPRO)/calico/bin/ds7_lykoi.elf -t r4zukan.txt
 
 $(TARGET).arm9: main.o
 	$(CXX) $(LDFLAGS) -o $@ $^ $(LIBS)
