@@ -270,7 +270,7 @@ int main(void){
     videoSetMode(MODE_5_2D | DISPLAY_BG2_ACTIVE);
     videoSetModeSub(MODE_5_2D | DISPLAY_BG2_ACTIVE);
     vramSetBankA(VRAM_A_MAIN_BG_0x06000000);
-    vramSetBankH(VRAM_H_SUB_BG);
+    vramSetBankC(VRAM_C_SUB_BG);   // 下屏位图用 C 显存(128KB,映射0x06200000)；H 只有32KB放不下96KB位图
     REG_BG2CNT   = BG_BMP_BASE(0) | BG_BMP16_256x256;
     REG_BG2CNT_SUB= BG_BMP_BASE(0) | BG_BMP16_256x256;
 
