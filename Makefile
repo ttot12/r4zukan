@@ -5,9 +5,16 @@
 .SUFFIXES:
 #---------------------------------------------------------------------------------
 ifeq ($(strip $(DEVKITARM)),)
-$(error "请先设置 DEVKITARM 环境变量，例如：export DEVKITARM=/c/devkitPro/devkitARM")
+$(error "Please set DEVKITARM in your environment. export DEVKITARM=<path to>devkitARM")
 endif
+#---------------------------------------------------------------------------------
+# 关键：把 devkitARM 和 devkitPro 的工具目录加进 PATH，否则找不到 ndstool / arm-none-eabi-g++
+#---------------------------------------------------------------------------------
+export PATH := $(DEVKITARM)/bin:$(DEVKITPRO)/tools/bin:$(PATH)
 
+#---------------------------------------------------------------------------------
+# devkitPro 的 ds_rules 提供 LIBNDS、INCLUDE 等标准变量
+#---------------------------------------------------------------------------------
 include $(DEVKITARM)/ds_rules
 
 TARGET   := r4zukan
@@ -18,8 +25,9 @@ ARCH := -marm -mthumb-interwork -march=armv5te -mtune=arm946e-s \
 
 CFLAGS   := -g -Wall -O2 $(ARCH) $(INCLUDE)
 CXXFLAGS := $(CFLAGS) -fno-rtti -fno-exceptions -fno-threadsafe-statics
-LDFLAGS  := -specs=ds_arm9.specs -g
-LIBS     := -lnds9
+LDFLAGS  := -specs=ds_arm9.specs -g $(ARCH)
+# 关键：显式给出 libnds 的 -L 库路径，否则链接器找不到 libnds9.a
+LIBS     := -L$(DEVKITPRO)/libnds/lib -lnds9 -lm
 
 all: $(TARGET).nds
 
