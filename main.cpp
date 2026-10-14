@@ -270,7 +270,7 @@ int main(void){
     videoSetMode(MODE_5_2D | DISPLAY_BG2_ACTIVE);
     videoSetModeSub(MODE_5_2D | DISPLAY_BG2_ACTIVE);
     vramSetBankA(VRAM_A_MAIN_BG_0x06000000);
-    vramSetBankD(VRAM_D_SUB_BG_0x06200000);
+    vramSetBankD(VRAM_D_SUB_BG);
     REG_BG2CNT   = BG_BMP_BASE(0) | BG_BMP16_256x256;
     REG_BG2CNT_SUB= BG_BMP_BASE(0) | BG_BMP16_256x256;
 
